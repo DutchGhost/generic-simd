@@ -16,6 +16,9 @@ unsafe impl Sealed for i32 {}
 unsafe impl Sealed for i64 {}
 unsafe impl Sealed for i128 {}
 
+unsafe impl Sealed for f32 {}
+unsafe impl Sealed for f64 {}
+
 pub trait Num: Sealed {}
 impl Num for u8 {}
 impl Num for u16 {}
@@ -29,6 +32,10 @@ impl Num for i32 {}
 impl Num for i64 {}
 impl Num for i128 {}
 
+impl Num for f32 {}
+impl Num for f64 {}
+
+#[repr(transparent)]
 pub struct Simd<T: Num, const WIDTH: usize>
 where
     Self: SimdExt,
@@ -68,6 +75,7 @@ copy_clone!(2, 4, 8, 16, 32);
 
 mod bit_16_impls;
 mod bit_8_impls;
+mod float_impls;
 
 assignops!([2, 4, 8, 16, 32], AddAssign, add_assign, Add, add);
 assignops!([2, 4, 8, 16, 32], BitAndAssign, bitand_assign, BitAnd, bitand);

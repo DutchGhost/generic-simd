@@ -17,3 +17,8 @@ binops!(u8, 16, Sub, sub, _mm_sub_epi8);
 binops!(i8, 16, Sub, sub, _mm_sub_epi8);
 binops!(u8, 32, Sub, sub, _mm256_sub_epi8);
 binops!(i8, 32, Sub, sub, _mm256_sub_epi8);
+
+binops!(u8, 16, BitAnd, bitand, _mm_and_si128);
+binops!(i8, 16, BitAnd, bitand, _mm_and_si128);
+binops!(u8, 32, BitAnd, bitand, _mm256_and_si256);
+binops!(i8, 32, BitAnd, bitand, _mm256_and_si256);

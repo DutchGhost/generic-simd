@@ -1,3 +1,22 @@
+macro_rules! copy_clone {
+    ($size:expr $(,$sizes:expr)*) => {
+        impl <T: Num> Copy for Simd<T, $size> where Self: SimdExt {}
+
+        impl <T: Num> Clone for Simd<T, $size>
+        where
+            Self: SimdExt,
+        {
+            #[inline(always)]
+            fn clone(&self) -> Self {
+                *self
+            }
+        }
+
+        copy_clone!($($sizes),*);
+    };
+    () => ();
+}
+
 macro_rules! binops {
     ($tgt:ty, $size:expr, $trait_name:ident, $fnname:ident, $operation:tt) => {
         impl $trait_name for Simd<$tgt, $size> {
@@ -86,11 +105,12 @@ macro_rules! binops {
 }
 
 macro_rules! assignops {
-    ($size:expr, $trait_name:ident, $fnname:ident, $forwarding_trait:ident, $forwardingfn:ident) => {
+    ([$size:expr $(,$sizes:expr)*], $trait_name:ident, $fnname:ident, $forwarding_trait:ident, $forwardingfn:ident) => {
         impl <T: Num> $trait_name for Simd<T, $size>
         where
             Self: $forwarding_trait<Output = Self> + SimdExt,
         {
+            #[inline(always)]
             fn $fnname(&mut self, rhs: Simd<T, $size>) {
                 *self = (*self).$forwardingfn(rhs)
             }
@@ -100,6 +120,7 @@ macro_rules! assignops {
         where
             Self: $forwarding_trait<Output = Self> + SimdExt,
         {
+            #[inline(always)]
             fn $fnname(&mut self, rhs: &'a Simd<T, $size>) {
                 *self = (*self).$forwardingfn(*rhs);
             }
@@ -109,6 +130,7 @@ macro_rules! assignops {
         where
             Self: $forwarding_trait<Output = Self> + SimdExt,
         {
+            #[inline(always)]
             fn $fnname(&mut self, rhs: &'a mut Simd<T, $size>) {
                 *self = (*self).$forwardingfn(*rhs);
             }
@@ -118,6 +140,7 @@ macro_rules! assignops {
         where
             Simd<T, $size>: $forwarding_trait<Output = Simd<T, $size>> + SimdExt,
         {
+            #[inline(always)]
             fn $fnname(&mut self, rhs: Simd<T, $size>) {
                 (**self) = (**self).$forwardingfn(rhs);
             }
@@ -127,6 +150,7 @@ macro_rules! assignops {
         where
             Simd<T, $size>: $forwarding_trait<Output = Simd<T, $size>> + SimdExt,
         {
+            #[inline(always)]
             fn $fnname(&mut self, rhs: &'b Simd<T, $size>) {
                 (**self) = (**self).$forwardingfn(*rhs);
             }
@@ -136,9 +160,14 @@ macro_rules! assignops {
         where
             Simd<T, $size>: $forwarding_trait<Output = Simd<T, $size>> + SimdExt,
         {
+            #[inline(always)]
             fn $fnname(&mut self, rhs: &'b mut Simd<T, $size>) {
                 (**self) = (**self).$forwardingfn(*rhs);
             }
         }
-    }
+
+        assignops!([$($sizes),*], $trait_name, $fnname, $forwarding_trait, $forwardingfn);
+    };
+
+    ([], $trait_name:ident, $fnname:ident, $forwarding_trait:ident, $forwardingfn:ident) => ();
 }

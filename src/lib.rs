@@ -58,51 +58,22 @@ pub trait SimdExt {
     fn new() -> Self;
 }
 
-impl<T: Num> Copy for Simd<T, 8> where Self: SimdExt {}
-impl<T: Num> Copy for Simd<T, 16> where Self: SimdExt {}
-impl<T: Num> Copy for Simd<T, 32> where Self: SimdExt {}
-
-impl<T: Num> Clone for Simd<T, 8>
-where
-    Self: SimdExt,
-{
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
-impl<T: Num> Clone for Simd<T, 16>
-where
-    Self: SimdExt,
-{
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
-impl<T: Num> Clone for Simd<T, 32>
-where
-    Self: SimdExt,
-{
-    fn clone(&self) -> Self {
-        *self
-    }
-}
 
 use core::ops::*;
 
 #[macro_use]
 mod macros;
 
+
+copy_clone!(2, 4, 8, 16, 32);
+
 mod bit_16_impls;
 mod bit_8_impls;
 
-assignops!(16, AddAssign, add_assign, Add, add);
-assignops!(32, AddAssign, add_assign, Add, add);
-assignops!(16, SubAssign, sub_assign, Sub, sub);
-assignops!(32, SubAssign, sub_assign, Sub, sub);
-assignops!(16, MulAssign, mul_assign, Mul, mul);
-assignops!(32, MulAssign, mul_assign, Mul, mul);
+assignops!([2, 4, 8, 16, 32], AddAssign, add_assign, Add, add);
+assignops!([2, 4, 8, 16, 32], SubAssign, sub_assign, Sub, sub);
+assignops!([2, 4, 8, 16, 32], MulAssign, mul_assign, Mul, mul);
+assignops!([2, 4, 8, 16, 32], BitAndAssign, bitand_assign, BitAnd, bitand);
 
 
 #[cfg(test)]

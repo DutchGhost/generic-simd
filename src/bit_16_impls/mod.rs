@@ -20,3 +20,8 @@ binops!(u16, 8, Mul, mul, _mm_mullo_epi16);
 binops!(i16, 8, Mul, mul, _mm_mullo_epi16);
 binops!(u16, 16, Mul, mul, _mm256_mullo_epi16);
 binops!(i16, 16, Mul, mul, _mm256_mullo_epi16);
+
+binops!(u16, 8, BitAnd, bitand, _mm_and_si128);
+binops!(i16, 8, BitAnd, bitand, _mm_and_si128);
+binops!(u16, 16, BitAnd, bitand, _mm256_and_si256);
+binops!(i16, 16, BitAnd, bitand, _mm256_and_si256);

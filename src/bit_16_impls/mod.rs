@@ -1,10 +1,13 @@
 use crate::*;
 use core::{arch::x86_64::*, ops::*};
 
-#[cfg(target_feature = "sse2")]
+#[cfg(target_feature = "avx2")]
 mod i16_16_impl;
+#[cfg(target_feature = "sse2")]
 mod i16_8_impl;
+#[cfg(target_feature = "avx2")]
 mod u16_16_impl;
+#[cfg(target_feature = "sse2")]
 mod u16_8_impl;
 
 // ------------------------------------

@@ -65,7 +65,6 @@ pub trait SimdExt {
     fn new() -> Self;
 }
 
-
 use core::ops::*;
 
 #[macro_use]
@@ -78,15 +77,26 @@ mod bit_8_impls;
 mod float_impls;
 
 assignops!([2, 4, 8, 16, 32], AddAssign, add_assign, Add, add);
-assignops!([2, 4, 8, 16, 32], BitAndAssign, bitand_assign, BitAnd, bitand);
+assignops!(
+    [2, 4, 8, 16, 32],
+    BitAndAssign,
+    bitand_assign,
+    BitAnd,
+    bitand
+);
 assignops!([2, 4, 8, 16, 32], BitOrAssign, bitor_assign, BitOr, bitor);
-assignops!([2, 4, 8, 16, 32], BitXorAssign, bitxor_assign, BitXor, bitxor);
+assignops!(
+    [2, 4, 8, 16, 32],
+    BitXorAssign,
+    bitxor_assign,
+    BitXor,
+    bitxor
+);
 assignops!([2, 4, 8, 16, 32], DivAssign, div_assign, Div, div);
 assignops!([2, 4, 8, 16, 32], MulAssign, mul_assign, Mul, mul);
 assignops!([2, 4, 8, 16, 32], RemAssign, rem_assign, Rem, rem);
 assignops!([2, 4, 8, 16, 32], ShlAssign, shl_assign, Shl, shl);
 assignops!([2, 4, 8, 16, 32], SubAssign, sub_assign, Sub, sub);
-
 
 #[cfg(test)]
 mod tests {

@@ -69,4 +69,3 @@ binops!(i8, 16, Sub, sub, _mm_sub_epi8);
 binops!(u8, 32, Sub, sub, _mm256_sub_epi8);
 #[cfg(target_feature = "avx2")]
 binops!(i8, 32, Sub, sub, _mm256_sub_epi8);
-

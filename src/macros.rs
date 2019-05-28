@@ -25,12 +25,12 @@ macro_rules! binops {
             #[inline(always)]
             fn $fnname(self, rhs: Self) -> Self::Output {
                 Self {
-                    inner: unsafe { $operation(self.inner, rhs.inner) }
+                    inner: unsafe { $operation(self.inner, rhs.inner) },
                 }
             }
         }
 
-        impl <'a> $trait_name<Simd<$tgt, $size>> for &'a Simd<$tgt, $size> {
+        impl<'a> $trait_name<Simd<$tgt, $size>> for &'a Simd<$tgt, $size> {
             type Output = <Simd<$tgt, $size> as $trait_name>::Output;
 
             #[inline(always)]
@@ -39,7 +39,7 @@ macro_rules! binops {
             }
         }
 
-        impl <'a> $trait_name<Simd<$tgt, $size>> for &'a mut Simd<$tgt, $size> {
+        impl<'a> $trait_name<Simd<$tgt, $size>> for &'a mut Simd<$tgt, $size> {
             type Output = <Simd<$tgt, $size> as $trait_name>::Output;
 
             #[inline(always)]
@@ -48,7 +48,7 @@ macro_rules! binops {
             }
         }
 
-        impl <'a> $trait_name<&'a Simd<$tgt, $size>> for Simd<$tgt, $size> {
+        impl<'a> $trait_name<&'a Simd<$tgt, $size>> for Simd<$tgt, $size> {
             type Output = <Simd<$tgt, $size> as $trait_name>::Output;
 
             #[inline(always)]
@@ -57,7 +57,7 @@ macro_rules! binops {
             }
         }
 
-        impl <'a> $trait_name<&'a mut Simd<$tgt, $size>> for Simd<$tgt, $size> {
+        impl<'a> $trait_name<&'a mut Simd<$tgt, $size>> for Simd<$tgt, $size> {
             type Output = <Simd<$tgt, $size> as $trait_name>::Output;
 
             #[inline(always)]
@@ -66,42 +66,42 @@ macro_rules! binops {
             }
         }
 
-        impl <'a, 'b> $trait_name<&'a Simd<$tgt, $size>> for &'b Simd<$tgt, $size> {
+        impl<'a, 'b> $trait_name<&'a Simd<$tgt, $size>> for &'b Simd<$tgt, $size> {
             type Output = <Simd<$tgt, $size> as $trait_name>::Output;
-            
+
             #[inline(always)]
             fn $fnname(self, rhs: &'a Simd<$tgt, $size>) -> Self::Output {
                 (*self).$fnname(*rhs)
             }
         }
 
-        impl <'a, 'b> $trait_name<&'a mut Simd<$tgt, $size>> for &'b Simd<$tgt, $size> {
+        impl<'a, 'b> $trait_name<&'a mut Simd<$tgt, $size>> for &'b Simd<$tgt, $size> {
             type Output = <Simd<$tgt, $size> as $trait_name>::Output;
-            
+
             #[inline(always)]
             fn $fnname(self, rhs: &'a mut Simd<$tgt, $size>) -> Self::Output {
                 (*self).$fnname(*rhs)
             }
         }
 
-        impl <'a, 'b> $trait_name<&'a Simd<$tgt, $size>> for &'b mut Simd<$tgt, $size> {
+        impl<'a, 'b> $trait_name<&'a Simd<$tgt, $size>> for &'b mut Simd<$tgt, $size> {
             type Output = <Simd<$tgt, $size> as $trait_name>::Output;
-            
+
             #[inline(always)]
             fn $fnname(self, rhs: &'a Simd<$tgt, $size>) -> Self::Output {
                 (*self).$fnname(*rhs)
             }
         }
 
-        impl <'a, 'b> $trait_name<&'a mut Simd<$tgt, $size>> for &'b mut Simd<$tgt, $size> {
+        impl<'a, 'b> $trait_name<&'a mut Simd<$tgt, $size>> for &'b mut Simd<$tgt, $size> {
             type Output = <Simd<$tgt, $size> as $trait_name>::Output;
-            
+
             #[inline(always)]
             fn $fnname(self, rhs: &'a mut Simd<$tgt, $size>) -> Self::Output {
                 (*self).$fnname(*rhs)
             }
         }
-    }
+    };
 }
 
 macro_rules! assignops {

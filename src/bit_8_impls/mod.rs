@@ -11,6 +11,8 @@ binops!(i8, 16, Add, add, _mm_add_epi8);
 binops!(u8, 32, Add, add, _mm256_add_epi8);
 binops!(i8, 32, Add, add, _mm256_add_epi8);
 
+//assignops!(u8, 16, AddAssign, add_assign, add);
+
 binops!(u8, 16, Sub, sub, _mm_sub_epi8);
 binops!(i8, 16, Sub, sub, _mm_sub_epi8);
 binops!(u8, 32, Sub, sub, _mm256_sub_epi8);

@@ -69,3 +69,17 @@ binops!(i8, 16, Sub, sub, _mm_sub_epi8);
 binops!(u8, 32, Sub, sub, _mm256_sub_epi8);
 #[cfg(target_feature = "avx2")]
 binops!(i8, 32, Sub, sub, _mm256_sub_epi8);
+
+
+#[cfg(target_feature = "sse4.1")]
+impl_all!(u8, 16, this, other, {
+    unsafe { _mm_testc_si128(this.inner, other.inner) != 0 }
+});
+
+#[cfg(all(target_feature = "sse2", not(target_feature = "sse4.1")))]
+impl_all!(u8, 16, this, other, {
+    unsafe {
+        let result = _mm_cmpeq_epi8(this.inner, other.inner);
+        _mm_movemask_epi8(result) == 0
+    }
+});

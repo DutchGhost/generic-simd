@@ -43,17 +43,6 @@ where
     inner: <Self as SimdExt>::Vector,
 }
 
-impl<T: Num, const WIDTH: usize> Simd<T, { WIDTH }>
-where
-    Self: SimdExt,
-{
-    /// Returns the number of bits the vector contains.
-    pub fn bitwidth() -> usize {
-        use core::mem;
-
-        mem::size_of::<<Self as SimdExt>::Vector>() * 8
-    }
-}
 // - u8/i8: 16, 32, 64
 // - u16/i16: 8, 16, 32
 // - u32/i32/f32: 4, 8, 16
@@ -65,10 +54,12 @@ pub trait SimdExt {
     fn new() -> Self;
 }
 
-use core::ops::*;
 
 #[macro_use]
 mod macros;
+
+#[macro_use]
+pub mod compare;
 
 copy_clone!(2, 4, 8, 16, 32);
 
@@ -76,6 +67,7 @@ mod bit_16_impls;
 mod bit_8_impls;
 mod float_impls;
 
+use core::ops::*;
 assignops!([2, 4, 8, 16, 32], AddAssign, add_assign, Add, add);
 assignops!(
     [2, 4, 8, 16, 32],
